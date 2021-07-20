@@ -10,14 +10,14 @@ export default function useAuth() {
 
     const auth = async (email, password) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/login', null, {
+            const response = await axios.post('http://37.228.116.119:8000/api/login', null, {
                 params: {
                     email: email,
                     password: password
                 }
             });
             if(response.data.error) {
-                token.value = response.data.error
+                token.value = response.data
             } else {
                 token.value = await response.data['token']
                 isAuth.value = true

@@ -4,7 +4,7 @@ export default function useGetInfo() {
 
     const getInfo = async (token) => {
         try {
-            const response = await axios.get('http://localhost:8000/api/info', {
+            const response = await axios.get('http://37.228.116.119:8000/api/info', {
                 params: {
                     token: token
                 }

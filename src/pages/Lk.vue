@@ -62,7 +62,7 @@ export default {
     
     const logout = () => {
       router.push({
-      name: 'login', 
+      name: 'login',
       })
     }
 

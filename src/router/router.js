@@ -9,6 +9,13 @@ const routes = [
     path: '/',
     component: Login
   },
+
+  {
+    name: 'logout',
+    path: '/logout/:token',
+    component: Login
+  },
+
   {
     name: 'lk',
     path: '/lk/:token',

@@ -8,6 +8,7 @@
       <div class="mt-5 max-w-lg px-5 flex flex-col content-center items-center justify-center">
       <input v-model="email" class="ring-1 ring-gray-300 focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2" type="email" placeholder="Email" />
       <input v-model="password" class="ring-1 ring-gray-300  focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2 mt-3" type="password" placeholder="Пароль" />
+      <p v-if="isError" class="bg-red-200 rounded-3xl text-center my-3 min-w-full mx-5">Неверный email или пароль</p>
       <button v-if="!isLoading" 
       @click="auth(email, password), isLoading=true" 
       class="bg-black rounded-3xl text-sm font-bold mt-5 mb-5 mx-10 py-3 px-8 text-white">Войти</button>
@@ -18,17 +19,39 @@
 
 </template>
 <script>
-import {ref, computed, watch} from 'vue'
+import {ref, computed, watch, onMounted} from 'vue'
 import router from '@/router/router'
+import { useRoute } from 'vue-router';
 import useAuth from "@/hooks/useAuth"
 export default {
   components: {
 
   },
+
   setup() {
     const isLoading = ref(false)
+    const isError = ref(false)
+
     const { email, password, auth, token, isAuth } = useAuth()
 
+    watch(token, () => {
+      console.log(token.value['error'])
+      if(token.value['error']) {
+        isError.value = true
+        isLoading.value = false
+      }
+    })
+
+    watch(email, () => {
+      console.log(email)
+      isError.value = false
+    })
+
+    watch(password, () => {
+      console.log(password)
+      isError.value = false
+    })
+    
     watch(isAuth, () => {
       router.push({
       name: 'lk', 
@@ -36,6 +59,9 @@ export default {
          token: token.value, 
         }
       })
+      email.value = ''
+      password.value = ''
+      isAuth.value = false
     })
     return {
       email,
@@ -43,16 +69,10 @@ export default {
       auth,
       token,
       isAuth,
-      isLoading
+      isLoading,
+      isError
     }
   },
-    data() {
-    return {
-    }
-  },
-    methods() {
-      
-    }
 }
 </script>
 <style>

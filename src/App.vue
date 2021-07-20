@@ -1,17 +1,17 @@
 <template>
   <div class="app">
-    <router-view></router-view>
+    <router-view :key="router.fullPath"></router-view>
   </div>
 </template>
 <script>
+import router from '@/router/router'
 export default {
   components: {
 
   },
   setup() {
-  },
-    data() {
     return {
+      router
     }
   },
 }
