@@ -1,5 +1,4 @@
 module.exports = {
     publicPath: 'lk',
-    outputDir: 'dist/lk'
-
+    outputDir: 'dist/lk',
 }
