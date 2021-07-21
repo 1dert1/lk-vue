@@ -1,3 +1,3 @@
-// module.exports = {
-//     publicPath: '/lk-vue'
-// }
+module.exports = {
+    publicPath: '/lk'
+}
