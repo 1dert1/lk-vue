@@ -4,7 +4,7 @@ export default function useGetInfo() {
 
     const getInfo = async (token) => {
         try {
-            const response = await axios.get('https:/mxakep.ml/api/info', {
+            const response = await axios.get('/api/info', {
                 params: {
                     token: token
                 }

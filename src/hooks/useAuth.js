@@ -10,7 +10,7 @@ export default function useAuth() {
 
     const auth = async (email, password) => {
         try {
-            const response = await axios.post('https:/mxakep.ml/api/login', null, {
+            const response = await axios.post('/api/login', null, {
                 params: {
                     email: email,
                     password: password
