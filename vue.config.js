@@ -1,3 +1,5 @@
 module.exports = {
-    publicPath: 'lk/'
+    publicPath: 'lk',
+    outputDir: 'dist/lk'
+
 }
