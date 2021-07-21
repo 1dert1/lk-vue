@@ -3,7 +3,7 @@ var history = require('connect-history-api-fallback');
 var app = express();
 
 // Middleware for serving '/dist' directory
-const staticFileMiddleware = express.static('dist');
+const staticFileMiddleware = express.static(__dirname + 'dist');
 
 // 1st call for unredirected requests 
 app.use(staticFileMiddleware);
