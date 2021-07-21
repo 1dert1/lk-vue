@@ -6,7 +6,7 @@ export default function useGetGrades() {
 
     const getGrades = async (token) => {
         try {
-            const response = await axios.get('/api/grades', {
+            const response = await axios.get('https:/mxakep.ml/api/grades', {
                 params: {
                     token: token
                 }
