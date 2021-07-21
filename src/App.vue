@@ -5,11 +5,16 @@
 </template>
 <script>
 import router from '@/router/router'
+import bridge from '@vkontakte/vk-bridge';
+
 export default {
   components: {
 
   },
   setup() {
+    // Sends event to client
+    bridge.send('VKWebAppInit');
+
     return {
       router
     }

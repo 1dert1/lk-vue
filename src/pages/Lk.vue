@@ -11,7 +11,7 @@
   </div>
     <div v-if="!isLoading">
     <div class="flex flex-col content-center items-center justify-center">
-      <img class="mt-5 rounded-full w-32 h-32" src="https://ru-static.z-dn.net/files/d98/0c89727fa47728733a450510c5c83021.jpg" />
+      <img class="mt-5 rounded-full w-32 h-32" :src="avatar" />
       <p class="mt-5 text-center font-semibold">{{ info['surname'] + ' ' + info['name'] + ' ' + info['middlename']}}</p>
       <p class="mt-2 text-gray-700">студент гр. {{ info['study_group'] }}, {{ info['year'] }} курс</p>
       <p class="mt-2 text-gray-700">{{ info['department'] }}</p>
@@ -50,6 +50,7 @@ import router from '@/router/router'
 import { useRoute } from 'vue-router';
 import useGetInfo from "@/hooks/useGetInfo"
 import useGetGrades from "@/hooks/useGetGrades"
+import bridge from '@vkontakte/vk-bridge'
 export default {
   components: {
 
@@ -59,6 +60,8 @@ export default {
     const token = route.params.token
     const isLoading = ref(true)
     const { getInfo } = useGetInfo()
+ 
+    const avatar = ref('https://ru-static.z-dn.net/files/d98/0c89727fa47728733a450510c5c83021.jpg')
     
     const logout = () => {
       router.push({
@@ -80,12 +83,25 @@ export default {
     onMounted(async() => { 
       info.value = await getInfo(token)
       isLoading.value = false
+      console.log(avatar.value)
+      try { 
+        const data = await bridge.send('VKWebAppGetUserInfo');
+        console.log(data)
+        if(data.photo_200 !== '') {
+        avatar.value = data.photo_200;
+        } 
+      } catch (e) {
+      }
+      
+      console.log(avatar.value)
+
     })
     return {
       info,
       isLoading,
       logout,
-      toGrades
+      toGrades,
+      avatar
      // grades,
      // isLoading
     }
