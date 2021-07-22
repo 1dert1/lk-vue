@@ -3,10 +3,10 @@ var history = require('connect-history-api-fallback');
 var app = express();
 
 // Middleware for serving '/dist' directory
-const staticFileMiddleware = express.static(__dirname + 'dist');
+const staticFileMiddleware = express.static('dist');
 
 // 1st call for unredirected requests 
-app.use(staticFileMiddleware);
+app.use('/lk-bot', staticFileMiddleware);
 
 // Support history api
 // this is the HTTP request path not the path on disk
@@ -15,7 +15,7 @@ app.use(history({
 }));
 
 // 2nd call for redirected requests
-app.use(staticFileMiddleware);
+app.use('/lk-bot', staticFileMiddleware);
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
