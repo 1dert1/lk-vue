@@ -81,17 +81,18 @@ export default {
     const info = ref({})
 
     onMounted(async() => { 
-      isLoading.value = false
       try {
         const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
         const vk_token = (await bridge.send('VKWebAppGetAuthToken', {
           app_id: APP_ID,
           scope: 'status'
         })).access_token
+        console.log(vk_id, vk_token)
         info.value = await getInfoWithVk(vk_id, vk_token)
+        console.log(info.value)
         const photo = (await bridge.send('VKWebAppGetUserInfo')).photo_200
         if(photo !== '') {
-        avatar.value = photo;
+          avatar.value = photo;
         } 
       } catch (e) {
         info.value = await getInfo(token)
@@ -106,8 +107,6 @@ export default {
       logout,
       toGrades,
       avatar
-     // grades,
-     // isLoading
     }
   },
     data() {

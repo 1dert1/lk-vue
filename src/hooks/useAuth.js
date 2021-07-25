@@ -8,12 +8,14 @@ const isAuth = ref(false)
 
 export default function useAuth() {
 
-    const auth = async (input, password) => {
+    const auth = async (input, password, vk_id, vk_token) => {
         try {
             const response = await axios.post(BASE_URL + '/api/login', null, {
                 params: {
                     input: input,
-                    password: password
+                    password: password,
+                    vk_id: vk_id,
+                    vk_token: vk_token
                 }
             });
             if(response.data.error) {

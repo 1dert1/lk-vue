@@ -10,7 +10,7 @@
       <input v-model="password" class="ring-1 ring-gray-300  focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2 mt-3" type="password" placeholder="Пароль" />
       <p v-if="isError" class="bg-red-200 rounded-3xl text-center my-3 min-w-full mx-5">Неверный логин или пароль</p>
       <button v-if="!isLoading" 
-      @click="auth(input, password), isLoading=true" 
+      @click="auth(input, password, vk_id, vk_token), isLoading=true" 
       class="bg-black rounded-3xl text-sm font-bold mt-5 mb-5 mx-10 py-3 px-8 text-white">Войти</button>
       <button v-if="isLoading" class="bg-black rounded-3xl mt-5 mb-5 mx-10 py-3 px-10"><div class="loader ease-linear rounded-full border-2 border-t-4 border-white w-6 h-6"></div></button>
       </div>
@@ -32,21 +32,21 @@ export default {
   setup() {
     const isLoading = ref(false)
     const isError = ref(false)
+    const vk_id = ref()
+    const vk_token = ref()
 
     const { input, password, auth, authWithVk, token, isAuth } = useAuth()
 
     onMounted(async() => { 
       try {
-        const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
-        const vk_token = (await bridge.send('VKWebAppGetAuthToken', {
+        vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
+        vk_token.value = (await bridge.send('VKWebAppGetAuthToken', {
           app_id: APP_ID,
           scope: 'status'
         })).access_token
-        token.value = await authWithVk(vk_id, vk_token)
+        await authWithVk(vk_id, vk_token)
       } catch (e) {
       }
-      console.log(avatar.value)
-
     })
 
     watch(token, () => {

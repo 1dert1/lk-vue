@@ -116,7 +116,6 @@ export default {
     
 
     onMounted(async() => { 
-      isLoading.value = false
       try {
         const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
         const vk_token = (await bridge.send('VKWebAppGetAuthToken', {
