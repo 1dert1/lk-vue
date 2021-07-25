@@ -44,7 +44,7 @@ export default {
           app_id: APP_ID,
           scope: 'status'
         })).access_token
-        await authWithVk(vk_id, vk_token)
+        await authWithVk(vk_id.value, vk_token.value)
       } catch (e) {
       }
     })
@@ -82,7 +82,9 @@ export default {
       token,
       isAuth,
       isLoading,
-      isError
+      isError,
+      vk_id, 
+      vk_token
     }
   },
 }

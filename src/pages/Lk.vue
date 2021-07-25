@@ -101,6 +101,9 @@ export default {
       console.log(avatar.value)
 
     })
+    watch(info, () => {
+      isLoading.value = false
+    })
     return {
       info,
       isLoading,

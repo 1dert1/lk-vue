@@ -129,6 +129,9 @@ export default {
       getLastSemester()
     })
 
+    watch(grades, () => {
+      isLoading.value = false
+    })
 
     return {
       grades,
