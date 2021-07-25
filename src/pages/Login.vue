@@ -37,12 +37,12 @@ export default {
 
     onMounted(async() => { 
       try {
-        const { id } = await bridge.send('VKWebAppGetUserInfo')
-        const { access_token } = await bridge.send('VKWebAppGetAuthToken', {
+        const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
+        const vk_token = (await bridge.send('VKWebAppGetAuthToken', {
           app_id: APP_ID,
           scope: 'status'
-        })
-        token.value = await authWithVk(id, access_token)
+        })).access_token
+        token.value = await authWithVk(vk_id, vk_token)
       } catch (e) {
       }
       console.log(avatar.value)

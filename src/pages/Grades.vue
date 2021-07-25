@@ -80,6 +80,7 @@ import { useRoute } from 'vue-router';
 import useGetGrades from "@/hooks/useGetGrades"
 import myList from "@/components/UI/myList"
 import myListNested from "@/components/UI/myListNested"
+import bridge from '@vkontakte/vk-bridge'
 export default {
   components: {
     myList,
@@ -117,12 +118,12 @@ export default {
     onMounted(async() => { 
       isLoading.value = false
       try {
-        const { id } = await bridge.send('VKWebAppGetUserInfo')
-        const { access_token } = await bridge.send('VKWebAppGetAuthToken', {
+        const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
+        const vk_token = (await bridge.send('VKWebAppGetAuthToken', {
           app_id: APP_ID,
           scope: 'status'
-        })
-        grades.value = await getGradesWithVk(id, access_token)
+        })).access_token
+        token.value = await getGradesWithVk(vk_id, vk_token)
       } catch (e) {
         grades.value = await getGrades(token)
       } 
