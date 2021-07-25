@@ -1,18 +1,18 @@
 import axios from "axios";
 import {ref} from 'vue';
-
-const email = ref('')
+import { BASE_URL } from '../config'
+const input = ref('')
 const password = ref('')
 const token = ref('')
 const isAuth = ref(false)
 
 export default function useAuth() {
 
-    const auth = async (email, password) => {
+    const auth = async (input, password) => {
         try {
-            const response = await axios.post('/api/login', null, {
+            const response = await axios.post(BASE_URL + '/api/login', null, {
                 params: {
-                    email: email,
+                    input: input,
                     password: password
                 }
             });
@@ -27,7 +27,26 @@ export default function useAuth() {
         } 
     }
 
+    const authWithVk = async (vk_id, vk_token) => {
+        try {
+            const response = await axios.post(BASE_URL + '/api/login', null, {
+                params: {
+                    vk_id: vk_id,
+                    vk_token: vk_token
+                }
+            });
+            if(response.data.error) {
+                token.value = response.data
+            } else {
+                token.value = await response.data['token']
+                isAuth.value = true
+            }
+        } catch (e) {
+            token.value = e.message
+        } 
+    }
+
     return {
-        email, password, auth, token, isAuth
+        input, password, auth, authWithVk, token, isAuth
     }
 }

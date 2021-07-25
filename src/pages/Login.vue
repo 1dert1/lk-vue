@@ -6,11 +6,11 @@
       <p class="text-center text-xl font-semibold py-5">Авторизация</p>
       </div>
       <div class="mt-5 max-w-lg px-5 flex flex-col content-center items-center justify-center">
-      <input v-model="email" class="ring-1 ring-gray-300 focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2" type="email" placeholder="Email" />
+      <input v-model="input" class="ring-1 ring-gray-300 focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2" type="text" placeholder="Email, логин или телефон в формате 79270123456" />
       <input v-model="password" class="ring-1 ring-gray-300  focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2 mt-3" type="password" placeholder="Пароль" />
-      <p v-if="isError" class="bg-red-200 rounded-3xl text-center my-3 min-w-full mx-5">Неверный email или пароль</p>
+      <p v-if="isError" class="bg-red-200 rounded-3xl text-center my-3 min-w-full mx-5">Неверный логин или пароль</p>
       <button v-if="!isLoading" 
-      @click="auth(email, password), isLoading=true" 
+      @click="auth(input, password), isLoading=true" 
       class="bg-black rounded-3xl text-sm font-bold mt-5 mb-5 mx-10 py-3 px-8 text-white">Войти</button>
       <button v-if="isLoading" class="bg-black rounded-3xl mt-5 mb-5 mx-10 py-3 px-10"><div class="loader ease-linear rounded-full border-2 border-t-4 border-white w-6 h-6"></div></button>
       </div>
@@ -21,8 +21,9 @@
 <script>
 import {ref, computed, watch, onMounted} from 'vue'
 import router from '@/router/router'
-import { useRoute } from 'vue-router';
 import useAuth from "@/hooks/useAuth"
+import bridge from '@vkontakte/vk-bridge'
+import { APP_ID } from '../config'
 export default {
   components: {
 
@@ -32,23 +33,34 @@ export default {
     const isLoading = ref(false)
     const isError = ref(false)
 
-    const { email, password, auth, token, isAuth } = useAuth()
+    const { input, password, auth, authWithVk, token, isAuth } = useAuth()
+
+    onMounted(async() => { 
+      try {
+        const { id } = await bridge.send('VKWebAppGetUserInfo')
+        const { access_token } = await bridge.send('VKWebAppGetAuthToken', {
+          app_id: APP_ID,
+          scope: 'status'
+        })
+        token.value = await authWithVk(id, access_token)
+      } catch (e) {
+      }
+      console.log(avatar.value)
+
+    })
 
     watch(token, () => {
-      console.log(token.value['error'])
       if(token.value['error']) {
         isError.value = true
         isLoading.value = false
       }
     })
 
-    watch(email, () => {
-      console.log(email)
+    watch(input, () => {
       isError.value = false
     })
 
     watch(password, () => {
-      console.log(password)
       isError.value = false
     })
     
@@ -59,12 +71,12 @@ export default {
          token: token.value, 
         }
       })
-      email.value = ''
+      input.value = ''
       password.value = ''
       isAuth.value = false
     })
     return {
-      email,
+      input,
       password,
       auth,
       token,

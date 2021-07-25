@@ -99,7 +99,7 @@ export default {
       })
     }
 
-    const { getGrades } = useGetGrades()
+    const { getGrades, getGradesWithVk } = useGetGrades()
 
     const grades = ref({})
 
@@ -115,9 +115,18 @@ export default {
     
 
     onMounted(async() => { 
-      grades.value = await getGrades(token)
+      isLoading.value = false
+      try {
+        const { id } = await bridge.send('VKWebAppGetUserInfo')
+        const { access_token } = await bridge.send('VKWebAppGetAuthToken', {
+          app_id: APP_ID,
+          scope: 'status'
+        })
+        grades.value = await getGradesWithVk(id, access_token)
+      } catch (e) {
+        grades.value = await getGrades(token)
+      } 
       getLastSemester()
-      isLoading.value = false      
     })
 
 

@@ -59,7 +59,7 @@ export default {
     const route = useRoute()
     const token = route.params.token
     const isLoading = ref(true)
-    const { getInfo } = useGetInfo()
+    const { getInfo, getGradesWithVk } = useGetInfo()
  
     const avatar = ref('https://ru-static.z-dn.net/files/d98/0c89727fa47728733a450510c5c83021.jpg')
     
@@ -81,16 +81,20 @@ export default {
     const info = ref({})
 
     onMounted(async() => { 
-      info.value = await getInfo(token)
       isLoading.value = false
-      console.log(avatar.value)
-      try { 
-        const data = await bridge.send('VKWebAppGetUserInfo');
-        console.log(data)
-        if(data.photo_200 !== '') {
-        avatar.value = data.photo_200;
+      try {
+        const { id } = await bridge.send('VKWebAppGetUserInfo')
+        const { access_token } = await bridge.send('VKWebAppGetAuthToken', {
+          app_id: APP_ID,
+          scope: 'status'
+        })
+        info.value = await getGradesWithVk(id, access_token) 
+        const { photo_200 } = await bridge.send('VKWebAppGetUserInfo');
+        if(photo_200 !== '') {
+        avatar.value = photo_200;
         } 
       } catch (e) {
+        info.value = await getInfo(token)
       }
       
       console.log(avatar.value)
