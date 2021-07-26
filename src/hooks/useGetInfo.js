@@ -13,7 +13,7 @@ export default function useGetInfo() {
             if(response.data.error) {
                 return await response.data.error
             } else {
-                return await response.data
+                return JSON.parse(await response.data)
             }
         } catch (e) {
             return await e.message
@@ -31,7 +31,7 @@ export default function useGetInfo() {
             if(response.data.error) {
                 return await response.data.error
             } else {
-                return await response.data
+                return JSON.parse(await response.data)
             }
         } catch (e) {
             return await e.message

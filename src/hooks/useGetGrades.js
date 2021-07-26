@@ -12,9 +12,9 @@ export default function useGetGrades() {
                 }
             });
             if(response.data.error) {
-                return await axios.response.data.error
+                return await response.data.error
             } else {
-                return await response.data
+                return JSON.parse(await response.data)
             }
         } catch (e) {
             return e.message
@@ -30,9 +30,9 @@ export default function useGetGrades() {
                 }
             });
             if(response.data.error) {
-                return await axios.response.data.error
+                return await response.data.error
             } else {
-                return await response.data
+                return JSON.parse(await response.data)
             }
         } catch (e) {
             return e.message
