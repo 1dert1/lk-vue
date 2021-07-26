@@ -42,7 +42,7 @@ export default {
         vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
         vk_token.value = (await bridge.send('VKWebAppGetAuthToken', {
           app_id: APP_ID,
-          scope: 'status'
+          scope: 'offline'
         })).access_token
         await authWithVk(vk_id.value, vk_token.value)
       } catch (e) {
