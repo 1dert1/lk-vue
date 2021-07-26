@@ -58,6 +58,7 @@ export default {
   setup() {
     const route = useRoute()
     const token = route.params.token
+    const vk_sign = route.params.vk_sign
     const isLoading = ref(true)
     const { getInfo, getInfoWithVk } = useGetInfo()
  
@@ -73,7 +74,8 @@ export default {
       router.push({
       name: 'grades', 
       params: {
-        token: token, 
+        token: token,
+        vk_sign: vk_sign 
       }
       })
     }
@@ -83,12 +85,7 @@ export default {
     onMounted(async() => { 
       try {
         const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
-        const vk_token = (await bridge.send('VKWebAppGetAuthToken', {
-          app_id: APP_ID,
-          scope: 'status'
-        })).access_token
-        console.log(vk_id, vk_token)
-        info.value = await getInfoWithVk(vk_id, vk_token)
+        info.value = await getInfoWithVk(vk_id, vk_sign)
         console.log(info.value)
         const photo = (await bridge.send('VKWebAppGetUserInfo')).photo_200
         if(photo !== '') {

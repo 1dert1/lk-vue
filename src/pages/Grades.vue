@@ -89,13 +89,15 @@ export default {
   setup() {
     const route = useRoute()
     const token = route.params.token
+    const vk_sign = route.params.vk_sign
     const isLoading = ref(true)
 
     const toLk = () => {
       router.push({
       name: 'lk', 
       params: {
-        token: token, 
+        token: token,
+        vk_sign: vk_sign 
       }
       })
     }
@@ -118,11 +120,7 @@ export default {
     onMounted(async() => { 
       try {
         const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
-        const vk_token = (await bridge.send('VKWebAppGetAuthToken', {
-          app_id: APP_ID,
-          scope: 'status'
-        })).access_token
-        token.value = await getGradesWithVk(vk_id, vk_token)
+        grades.value = await getGradesWithVk(vk_id, vk_sign)
       } catch (e) {
         grades.value = await getGrades(token)
       } 

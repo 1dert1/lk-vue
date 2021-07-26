@@ -21,12 +21,12 @@ export default function useGetGrades() {
         } 
     }
 
-    const getGradesWithVk = async (vk_id, vk_token) => {
+    const getGradesWithVk = async (vk_id, vk_sign) => {
         try {
             const response = await axios.get(BASE_URL + '/api/grades', {
                 params: {
                     vk_id: vk_id,
-                    vk_token: vk_token
+                    vk_sign: vk_sign
                 }
             });
             if(response.data.error) {

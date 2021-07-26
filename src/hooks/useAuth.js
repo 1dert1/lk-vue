@@ -8,14 +8,14 @@ const isAuth = ref(false)
 
 export default function useAuth() {
 
-    const auth = async (input, password, vk_id, vk_token) => {
+    const auth = async (input, password, vk_id, vk_sign) => {
         try {
             const response = await axios.post(BASE_URL + '/api/login', null, {
                 params: {
                     input: input,
                     password: password,
                     vk_id: vk_id,
-                    vk_token: vk_token
+                    vk_sign: vk_sign
                 }
             });
             if(response.data.error) {
@@ -29,12 +29,12 @@ export default function useAuth() {
         } 
     }
 
-    const authWithVk = async (vk_id, vk_token) => {
+    const authWithVk = async (vk_id, vk_sign) => {
         try {
             const response = await axios.post(BASE_URL + '/api/login', null, {
                 params: {
                     vk_id: vk_id,
-                    vk_token: vk_token
+                    vk_sign: vk_sign
                 }
             });
             if(response.data.error) {

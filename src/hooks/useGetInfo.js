@@ -20,12 +20,12 @@ export default function useGetInfo() {
         } 
     }
 
-    const getInfoWithVk = async (vk_id, vk_token) => {
+    const getInfoWithVk = async (vk_id, vk_sign) => {
         try {
             const response = await axios.get(BASE_URL + '/api/info', {
                 params: {
                     vk_id: vk_id,
-                    vk_token: vk_token
+                    vk_sign: vk_sign
                 }
             });
             if(response.data.error) {
