@@ -41,8 +41,7 @@ export default {
     onMounted(async() => { 
       try {
         vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
-        const params = window.location.search.slice(1);
-        vk_sign.value = qs.parse(params);
+        vk_sign.value = window.location.search.slice(1);
         await authWithVk(vk_id.value, vk_sign.value)
       } catch (e) {
       }
