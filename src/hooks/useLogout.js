@@ -6,7 +6,7 @@ export default function useLogout() {
 
     const logoutVk = async (vk_id, vk_sign) => {
         try {
-            const response = await axios.POST(BASE_URL + '/api/logout', null, {
+            const response = await axios.post(BASE_URL + '/api/logout', null, {
                 params: {
                     vk_id: vk_id,
                     vk_sign: vk_sign
