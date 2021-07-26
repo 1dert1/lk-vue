@@ -37,9 +37,7 @@ export default function useAuth() {
                     vk_sign: vk_sign
                 }
             });
-            if(response.data.error) {
-                token.value = response.data
-            } else {
+            if(!response.data.error) {
                 token.value = await response.data['token']
                 isAuth.value = true
             }
