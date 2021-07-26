@@ -58,7 +58,7 @@ export default {
   setup() {
     const route = useRoute()
     const token = route.params.token
-    const vk_sign = route.params.vk_sign
+    const vk_sign = ref(route.params.vk_sign)
     const vk_id = ref()
     const isLoading = ref(true)
     const { getInfo, getInfoWithVk } = useGetInfo()
