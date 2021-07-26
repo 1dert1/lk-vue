@@ -21,6 +21,7 @@
 <script>
 import {ref, computed, watch, onMounted} from 'vue'
 import router from '@/router/router'
+import { useRoute } from 'vue-router';
 import useAuth from "@/hooks/useAuth"
 import bridge from '@vkontakte/vk-bridge'
 import { APP_ID } from '../config'
@@ -34,15 +35,19 @@ export default {
     const isLoading = ref(false)
     const isError = ref(false)
     const vk_id = ref()
-    const vk_sign = ref()
+    const route = useRoute()
+    const vk_sign = ref(route.params.vk_sign)
+    console.log(vk_sign.value)
 
     const { input, password, auth, authWithVk, token, isAuth } = useAuth()
 
     onMounted(async() => { 
       try {
-        vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
-        vk_sign.value = window.location.search.slice(1);
-        await authWithVk(vk_id.value, vk_sign.value)
+        if(!vk_sign.value) {
+          vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
+          vk_sign.value = window.location.search.slice(1);
+          await authWithVk(vk_id.value, vk_sign.value)
+        }
       } catch (e) {
       }
     })

@@ -49,7 +49,7 @@ import {ref, computed, watch, onMounted} from 'vue'
 import router from '@/router/router'
 import { useRoute } from 'vue-router';
 import useGetInfo from "@/hooks/useGetInfo"
-import useGetGrades from "@/hooks/useGetGrades"
+import useLogout from "@/hooks/useLogout"
 import bridge from '@vkontakte/vk-bridge'
 export default {
   components: {
@@ -59,14 +59,22 @@ export default {
     const route = useRoute()
     const token = route.params.token
     const vk_sign = route.params.vk_sign
+    const vk_id = ref()
     const isLoading = ref(true)
     const { getInfo, getInfoWithVk } = useGetInfo()
+    const { logoutVk } = useLogout()
  
     const avatar = ref('https://ru-static.z-dn.net/files/d98/0c89727fa47728733a450510c5c83021.jpg')
     
     const logout = () => {
+      if(vk_sign.value){
+        logoutVk(vk_id.value, vk_sign.value).then(res => console.log(res))
+      }
       router.push({
       name: 'login',
+      params: {
+        vk_sign: vk_sign 
+      }
       })
     }
 
