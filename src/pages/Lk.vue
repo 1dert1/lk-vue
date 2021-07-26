@@ -73,7 +73,7 @@ export default {
       router.push({
       name: 'login',
       params: {
-        vk_sign: vk_sign 
+        vk_sign: vk_sign.value 
       }
       })
     }
@@ -83,7 +83,7 @@ export default {
       name: 'grades', 
       params: {
         token: token,
-        vk_sign: vk_sign 
+        vk_sign: vk_sign.value
       }
       })
     }
@@ -93,7 +93,7 @@ export default {
     onMounted(async() => { 
       try {
         const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
-        info.value = await getInfoWithVk(vk_id, vk_sign)
+        info.value = await getInfoWithVk(vk_id, vk_sign.value)
         console.log(info.value)
         const photo = (await bridge.send('VKWebAppGetUserInfo')).photo_200
         if(photo !== '') {
