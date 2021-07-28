@@ -66,7 +66,7 @@ export default {
     
     const logout = () => {
       if(vk_sign.value){
-        logoutVk(vk_id.value, vk_sign.value).then(res => console.log(res))
+        logoutVk(vk_id.value, vk_sign.value)
       }
       router.push({
       name: 'login'

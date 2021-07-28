@@ -12,18 +12,18 @@ const routes = [
 
   {
     name: 'logout',
-    path: '/logout/:token',
+    path: '/logout',
     component: Login
   },
 
   {
     name: 'lk',
-    path: '/lk/:token',
+    path: '/lk',
     component: Lk
   },
   {
     name: 'grades',
-    path: '/grades/:token',
+    path: '/grades',
     component: Grades
   },
 ]
