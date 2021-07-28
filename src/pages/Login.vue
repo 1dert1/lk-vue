@@ -19,7 +19,7 @@
 
 </template>
 <script>
-import {ref, computed, watch, onMounted} from 'vue'
+import {ref, computed, watch, onMounted, onBeforeMount} from 'vue'
 import router from '@/router/router'
 import { useRoute } from 'vue-router';
 import useAuth from "@/hooks/useAuth"
@@ -36,16 +36,21 @@ export default {
     const isError = ref(false)
 
     const { input, password, vk_id, vk_sign, auth, authWithVk, token, isAuth } = useAuth()
-
-    onMounted(async() => { 
-      try {
-        vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
-        if(!vk_sign.value) {
-          vk_sign.value = window.location.search.slice(1);
-          await authWithVk(vk_id.value, vk_sign.value)
+    if(isAuth.value) {
+      router.push({
+      name: 'lk'
+      })
+    }
+   
+    onBeforeMount(async() => { 
+       try {
+          vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
+          if(!vk_sign.value) {
+            vk_sign.value = window.location.search.slice(1);
+            await authWithVk(vk_id.value, vk_sign.value)
+          }
+        } catch (e) {
         }
-      } catch (e) {
-      }
     })
 
     watch(token, () => {

@@ -58,7 +58,7 @@ export default {
   },
   setup() {
     const isLoading = ref(true)
-    const { vk_id, vk_sign, token } = useAuth()
+    const { vk_id, vk_sign, token, isAuth } = useAuth()
     const { getInfo, getInfoWithVk } = useGetInfo()
     const { logoutVk } = useLogout()
  
@@ -68,6 +68,7 @@ export default {
       if(vk_sign.value){
         logoutVk(vk_id.value, vk_sign.value)
       }
+      isAuth.value = false
       router.push({
       name: 'login'
       })
