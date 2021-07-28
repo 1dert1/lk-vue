@@ -5,8 +5,8 @@ const input = ref('')
 const password = ref('')
 const token = ref('')
 const isAuth = ref(false)
-const vk_id = ref('')
-const vk_sign = ref('')
+const vk_id = ref(null)
+const vk_sign = ref(null)
 
 export default function useAuth() {
 
