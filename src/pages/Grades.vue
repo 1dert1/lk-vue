@@ -78,6 +78,7 @@ import {ref, computed, watch, onMounted} from 'vue'
 import router from '@/router/router'
 import { useRoute } from 'vue-router';
 import useGetGrades from "@/hooks/useGetGrades"
+import useAuth from "@/hooks/useAuth"
 import myList from "@/components/UI/myList"
 import myListNested from "@/components/UI/myListNested"
 import bridge from '@vkontakte/vk-bridge'
@@ -87,18 +88,12 @@ export default {
     myListNested
   },
   setup() {
-    const route = useRoute()
-    const token = route.params.token
-    const vk_sign = route.params.vk_sign
+    const { vk_id, vk_sign, token } = useAuth()
     const isLoading = ref(true)
 
     const toLk = () => {
       router.push({
-      name: 'lk', 
-      params: {
-        token: token,
-        vk_sign: vk_sign 
-      }
+      name: 'lk'
       })
     }
 
@@ -119,8 +114,7 @@ export default {
 
     onMounted(async() => { 
       try {
-        const vk_id = (await bridge.send('VKWebAppGetUserInfo')).id
-        grades.value = await getGradesWithVk(vk_id, vk_sign)
+        grades.value = await getGradesWithVk(vk_id.value, vk_sign.value)
       } catch (e) {
         grades.value = await getGrades(token)
       } 

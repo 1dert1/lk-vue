@@ -5,6 +5,8 @@ const input = ref('')
 const password = ref('')
 const token = ref('')
 const isAuth = ref(false)
+const vk_id = ref('')
+const vk_sign = ref('')
 
 export default function useAuth() {
 
@@ -47,6 +49,6 @@ export default function useAuth() {
     }
 
     return {
-        input, password, auth, authWithVk, token, isAuth
+        input, password, vk_id, vk_sign, auth, authWithVk, token, isAuth
     }
 }

@@ -48,6 +48,7 @@
 import {ref, computed, watch, onMounted} from 'vue'
 import router from '@/router/router'
 import { useRoute } from 'vue-router';
+import useAuth from "@/hooks/useAuth"
 import useGetInfo from "@/hooks/useGetInfo"
 import useLogout from "@/hooks/useLogout"
 import bridge from '@vkontakte/vk-bridge'
@@ -56,11 +57,8 @@ export default {
 
   },
   setup() {
-    const route = useRoute()
-    const token = route.params.token
-    const vk_sign = ref(route.params.vk_sign)
-    const vk_id = ref()
     const isLoading = ref(true)
+    const { vk_id, vk_sign, token } = useAuth()
     const { getInfo, getInfoWithVk } = useGetInfo()
     const { logoutVk } = useLogout()
  
@@ -71,20 +69,13 @@ export default {
         logoutVk(vk_id.value, vk_sign.value).then(res => console.log(res))
       }
       router.push({
-      name: 'login',
-      params: {
-        vk_sign: vk_sign.value 
-      }
+      name: 'login'
       })
     }
 
     const toGrades = () => {
       router.push({
-      name: 'grades', 
-      params: {
-        token: token,
-        vk_sign: vk_sign.value
-      }
+      name: 'grades'
       })
     }
 
@@ -92,7 +83,6 @@ export default {
 
     onMounted(async() => { 
       try {
-        vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
         info.value = await getInfoWithVk(vk_id.value, vk_sign.value)
         console.log(info.value)
         const photo = (await bridge.send('VKWebAppGetUserInfo')).photo_200

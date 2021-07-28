@@ -34,12 +34,8 @@ export default {
   setup() {
     const isLoading = ref(false)
     const isError = ref(false)
-    const vk_id = ref()
-    const route = useRoute()
-    const vk_sign = ref(route.params.vk_sign)
-    console.log(vk_sign.value)
 
-    const { input, password, auth, authWithVk, token, isAuth } = useAuth()
+    const { input, password, vk_id, vk_sign, auth, authWithVk, token, isAuth } = useAuth()
 
     onMounted(async() => { 
       try {
@@ -69,11 +65,7 @@ export default {
     
     watch(isAuth, () => {
       router.push({
-      name: 'lk', 
-      params: {
-         token: token.value, 
-         vk_sign: vk_sign.value, 
-        }
+      name: 'lk'
       })
       input.value = ''
       password.value = ''
