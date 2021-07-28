@@ -62,7 +62,7 @@ export default {
     const { getInfo, getInfoWithVk } = useGetInfo()
     const { logoutVk } = useLogout()
  
-    const avatar = ref('https://ru-static.z-dn.net/files/d98/0c89727fa47728733a450510c5c83021.jpg')
+    const avatar = ref('')
     
     const logout = () => {
       if(vk_sign.value){
@@ -92,6 +92,7 @@ export default {
         } 
       } catch (e) {
         info.value = await getInfo(token)
+        avatar.value = 'https://ru-static.z-dn.net/files/d98/0c89727fa47728733a450510c5c83021.jpg'
       }
       
       console.log(avatar.value)

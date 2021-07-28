@@ -41,7 +41,7 @@ export default {
       name: 'lk'
       })
     }
-    onBeforeMount(async() => { 
+    const logIn = async() => { 
        try {
           vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
           if(!vk_sign.value) {
@@ -50,7 +50,8 @@ export default {
           }
         } catch (e) {
         }
-    })
+    }
+    logIn()
 
     watch(token, () => {
       if(token.value['error']) {
