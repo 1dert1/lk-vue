@@ -41,7 +41,6 @@ export default {
       name: 'lk'
       })
     }
-   
     onBeforeMount(async() => { 
        try {
           vk_id.value = (await bridge.send('VKWebAppGetUserInfo')).id
@@ -74,7 +73,6 @@ export default {
       })
       input.value = ''
       password.value = ''
-      isAuth.value = false
     })
     return {
       input,
