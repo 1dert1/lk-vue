@@ -11,7 +11,7 @@
       <p class="mx-5 mb-5 font-semibold">Нет данных об общежитии</p>
     </div>
   </div>
-    <div v-if="!isLoading && hostel">
+    <div v-if="!isLoading && hostel.name">
     <div class="flex flex-col border-t border-gray-300">
       <div class="border-b border-gray-300 hover:bg-gray-300">
         <p class="mt-5 mx-3 font-semibold">Номер общежития</p>
