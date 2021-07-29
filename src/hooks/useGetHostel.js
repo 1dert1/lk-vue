@@ -2,11 +2,11 @@ import axios from "axios";
 import {ref} from 'vue';
 import { BASE_URL } from '../config'
 
-export default function useGetGrades() {
+export default function useGetHostel() {
 
-    const getGrades = async (token) => {
+    const getHostel = async (token) => {
         try {
-            const response = await axios.get(BASE_URL + '/api/grades', {
+            const response = await axios.get(BASE_URL + '/api/hostel', {
                 params: {
                     token: token
                 }
@@ -21,10 +21,10 @@ export default function useGetGrades() {
         } 
     }
 
-    const getGradesWithVk = async (vk_id, vk_sign) => {
+    const getHostelWithVk = async (vk_id, vk_sign) => {
         if(vk_id) {
             try {
-                const response = await axios.get(BASE_URL + '/api/grades', {
+                const response = await axios.get(BASE_URL + '/api/hostel', {
                     params: {
                         vk_id: vk_id,
                         vk_sign: vk_sign
@@ -41,10 +41,9 @@ export default function useGetGrades() {
         } else {
             throw new Error('Invalid data')
         }
-        
     }
 
     return {
-        getGrades, getGradesWithVk
+        getHostel, getHostelWithVk
     }
 }

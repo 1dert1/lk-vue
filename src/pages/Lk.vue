@@ -1,10 +1,7 @@
 <template>
-<div class="bg-white border-b border-gray-300 shadow-lg text-xl py-3 font-sans font-semibold text-center">Личный кабинет 2.0</div>
-<div class="bg-gray-200 pb-5 min-h-screen">
-  <div class="text-center grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-    <button class="inline-block text-center sm:text-xl font-semibold py-5 text-black-500 outline-none">Общие сведения</button>
-    <button @click="toGrades" class="inline-block text-center sm:text-xl font-semibold py-5 text-gray-500 hover:text-black outline-none">Успеваемость</button>
-  </div>
+<NavBar/>
+<Background>
+  <Menu/>
   <div class="bg-white mx-auto max-w-2xl rounded-lg border border-gray-300 shadow-lg">
   <div v-if="isLoading" class="my-10 flex flex-col content-center items-center justify-center">
     <div class="loader ease-linear rounded-full border-2 border-t-4 border-black w-10 h-10"></div>
@@ -41,10 +38,15 @@
     </div>
     </div>
   </div>
-  </div>
+</Background>
 </template>
 
 <script>
+import Navbar from "@/components/Navbar"
+import Background from "@/components/Background"
+import Box from "@/components/Box"
+import Menu from "@/components/Menu"
+
 import {ref, computed, watch, onMounted} from 'vue'
 import router from '@/router/router'
 import { useRoute } from 'vue-router';
@@ -54,7 +56,10 @@ import useLogout from "@/hooks/useLogout"
 import bridge from '@vkontakte/vk-bridge'
 export default {
   components: {
-
+    Navbar,
+    Background,
+    Box,
+    Menu
   },
   setup() {
     const isLoading = ref(true)
@@ -74,12 +79,6 @@ export default {
       })
     }
 
-    const toGrades = () => {
-      router.push({
-      name: 'grades'
-      })
-    }
-
     const info = ref({})
 
     onMounted(async() => { 
@@ -91,21 +90,19 @@ export default {
           avatar.value = photo;
         } 
       } catch (e) {
-        info.value = await getInfo(token)
+        console.log(token.value)
+        info.value = await getInfo(token.value)
         avatar.value = 'https://ru-static.z-dn.net/files/d98/0c89727fa47728733a450510c5c83021.jpg'
       }
-      
-      console.log(avatar.value)
-
-    })
-    watch(info, () => {
       isLoading.value = false
+      
+      console.log(info.value)
+
     })
     return {
       info,
       isLoading,
       logout,
-      toGrades,
       avatar
     }
   },

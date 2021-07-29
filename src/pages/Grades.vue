@@ -1,10 +1,7 @@
 <template>
-<div class="bg-white border-b border-gray-300 shadow-lg text-xl py-3 font-sans font-semibold text-center">Личный кабинет 2.0</div>
-<div class="bg-gray-200 pb-5 min-h-screen">
-  <div class="text-center grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-    <button @click="toLk" class="inline-block text-center sm:text-xl font-semibold py-5 text-gray-500 hover:text-black outline-none">Общие сведения</button>
-    <button class="inline-block text-center sm:text-xl font-semibold py-5 text-black-500 hover:text-black outline-none">Успеваемость</button>
-  </div>
+<NavBar/>
+<Background>
+<Menu/>
   <div class="bg-white mx-auto max-w-2xl rounded-lg border border-gray-300 shadow-lg">
   <div v-if="isLoading" class="my-10 flex flex-col content-center items-center justify-center">
     <div class="loader ease-linear rounded-full border-2 border-t-4 border-black w-10 h-10"></div>
@@ -35,7 +32,9 @@
           <my-list v-for="(discipline, indexDiscipline) in semester['disciplines']"
       :key="indexDiscipline">
       <template #name>
-        {{ discipline['discipline_name']}} 
+        <p class="my-5 mx-3 place-self-center font-semibold flex-grow sm:text-base text-sm">
+          {{ discipline['discipline_name']}} 
+          </p>
       </template>
       <template #grade>
         {{ discipline['grade'] }}
@@ -70,7 +69,7 @@
     </div>
     </div>
   </div>
-  </div>
+</Background>
 </template>
 
 <script>
@@ -81,11 +80,19 @@ import useGetGrades from "@/hooks/useGetGrades"
 import useAuth from "@/hooks/useAuth"
 import myList from "@/components/UI/myList"
 import myListNested from "@/components/UI/myListNested"
+import Navbar from "@/components/Navbar"
+import Background from "@/components/Background"
+import Box from "@/components/Box"
+import Menu from "@/components/Menu"
 import bridge from '@vkontakte/vk-bridge'
 export default {
   components: {
     myList,
-    myListNested
+    myListNested,
+    Navbar,
+    Background,
+    Box,
+    Menu
   },
   setup() {
     const { vk_id, vk_sign, token } = useAuth()
@@ -116,7 +123,7 @@ export default {
       try {
         grades.value = await getGradesWithVk(vk_id.value, vk_sign.value)
       } catch (e) {
-        grades.value = await getGrades(token)
+        grades.value = await getGrades(token.value)
       } 
       getLastSemester()
     })

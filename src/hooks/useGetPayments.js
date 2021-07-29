@@ -2,11 +2,11 @@ import axios from "axios";
 import {ref} from 'vue';
 import { BASE_URL } from '../config'
 
-export default function useGetGrades() {
+export default function useGetPayments() {
 
-    const getGrades = async (token) => {
+    const getPayments = async (token) => {
         try {
-            const response = await axios.get(BASE_URL + '/api/grades', {
+            const response = await axios.get(BASE_URL + '/api/payments', {
                 params: {
                     token: token
                 }
@@ -21,10 +21,10 @@ export default function useGetGrades() {
         } 
     }
 
-    const getGradesWithVk = async (vk_id, vk_sign) => {
+    const getPaymentsWithVk = async (vk_id, vk_sign) => {
         if(vk_id) {
             try {
-                const response = await axios.get(BASE_URL + '/api/grades', {
+                const response = await axios.get(BASE_URL + '/api/payments', {
                     params: {
                         vk_id: vk_id,
                         vk_sign: vk_sign
@@ -33,7 +33,7 @@ export default function useGetGrades() {
                 if(response.data.error) {
                     return await response.data.error
                 } else {
-                    return JSON.parse(await response.data)
+                    return await response.data
                 }
             } catch (e) {
                 return e.message
@@ -41,10 +41,9 @@ export default function useGetGrades() {
         } else {
             throw new Error('Invalid data')
         }
-        
     }
 
     return {
-        getGrades, getGradesWithVk
+        getPayments, getPaymentsWithVk
     }
 }

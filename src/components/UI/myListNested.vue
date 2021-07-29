@@ -3,9 +3,9 @@
     <summary>
       <div class="border-b border-gray-300">
         <div @click="rotateArrow()" class="hover:bg-gray-300 flex">
-          <p class="my-5 mx-5 text-lg font-semibold flex-grow"><slot name="name"></slot></p>
+          <p class="my-5 mx-3 font-semibold flex-grow"><slot name="name"></slot></p>
           <div class="my-5 px-5 place-self-end flex flex-row flex-none">
-            <p class="mx-5 text-lg font-semibold"><slot name="grade"></slot></p>
+            <p class="mx-5 font-semibold"><slot name="grade"></slot></p>
             <img v-if="!opened" class="toggle self-center" src="https://img.icons8.com/material-outlined/24/000000/expand-arrow--v1.png" />
             <img v-if="opened" class="toggle self-center" src="https://img.icons8.com/material-outlined/24/000000/collapse-arrow.png"/>
           </div>

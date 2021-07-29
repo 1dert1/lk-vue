@@ -1,34 +1,37 @@
 <template>
-<div class="bg-white border-b border-gray-300 shadow-lg text-center text-xl py-3 font-sans font-semibold">Личный кабинет 2.0</div>
-<div class="bg-gray-200 py-20 min-h-screen">
-    <div class="bg-white mx-auto rounded-xl border border-gray-300  max-w-lg shadow-lg">
-      <div class="border-b border-gray-300 shadow-sm min-w-full">
-      <p class="text-center text-xl font-semibold py-5">Авторизация</p>
-      </div>
-      <div class="mt-5 max-w-lg px-5 flex flex-col content-center items-center justify-center">
-      <input v-model="input" class="ring-1 ring-gray-300 focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2" type="text" placeholder="Email, логин или телефон в формате 79270123456" />
-      <input v-model="password" class="ring-1 ring-gray-300  focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2 mt-3" type="password" placeholder="Пароль" />
-      <p v-if="isError" class="bg-red-200 rounded-3xl text-center my-3 min-w-full mx-5">Неверный логин или пароль</p>
-      <button v-if="!isLoading" 
-      @click="auth(input, password, vk_id, vk_sign), isLoading=true" 
-      class="bg-black rounded-3xl text-sm font-bold mt-5 mb-5 mx-10 py-3 px-8 text-white">Войти</button>
-      <button v-if="isLoading" class="bg-black rounded-3xl mt-5 mb-5 mx-10 py-3 px-10"><div class="loader ease-linear rounded-full border-2 border-t-4 border-white w-6 h-6"></div></button>
-      </div>
+<NavBar/>
+<Background>
+  <div class="bg-white mx-auto rounded-2xl border border-gray-300 max-w-lg shadow-lg">
+    <div class="border-b border-gray-300 shadow-sm min-w-full">
+    <p class="text-center text-xl font-semibold py-5">Авторизация</p>
+    </div>
+    <div class="mt-5 max-w-lg px-5 flex flex-col content-center items-center justify-center">
+    <input v-model="input" class="ring-1 ring-gray-300 focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2" type="text" placeholder="Email, логин или телефон в формате 79270123456" />
+    <input v-model="password" class="ring-1 ring-gray-300  focus:outline-none min-w-full focus:ring-1 focus:ring-black focus:border-transparent rounded-sm py-1 px-2 mt-3" type="password" placeholder="Пароль" />
+    <p v-if="isError" class="bg-red-200 rounded-3xl text-center my-3 min-w-full mx-5">Неверный логин или пароль</p>
+    <button v-if="!isLoading" 
+    @click="auth(input, password, vk_id, vk_sign), isLoading=true" 
+    class="bg-black rounded-3xl text-sm font-bold mt-5 mb-5 mx-10 py-3 px-8 text-white">Войти</button>
+    <button v-if="isLoading" class="bg-black rounded-3xl mt-5 mb-5 mx-10 py-3 px-10"><div class="loader ease-linear rounded-full border-2 border-t-4 border-white w-6 h-6"></div></button>
     </div>
   </div>
-
+</Background>
 </template>
+
 <script>
+import Navbar from "@/components/Navbar"
+import Background from "@/components/Background"
+import Box from "@/components/Box"
+
 import {ref, computed, watch, onMounted, onBeforeMount} from 'vue'
 import router from '@/router/router'
-import { useRoute } from 'vue-router';
 import useAuth from "@/hooks/useAuth"
 import bridge from '@vkontakte/vk-bridge'
-import { APP_ID } from '../config'
-import qs from 'querystring'
 export default {
   components: {
-
+    Navbar,
+    Background,
+    Box
   },
 
   setup() {

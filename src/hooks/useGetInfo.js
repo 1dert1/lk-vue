@@ -13,7 +13,7 @@ export default function useGetInfo() {
             if(response.data.error) {
                 return await response.data.error
             } else {
-                return JSON.parse(await response.data)
+                return await response.data
             }
         } catch (e) {
             return await e.message
@@ -21,21 +21,25 @@ export default function useGetInfo() {
     }
 
     const getInfoWithVk = async (vk_id, vk_sign) => {
-        try {
-            const response = await axios.get(BASE_URL + '/api/info', {
-                params: {
-                    vk_id: vk_id,
-                    vk_sign: vk_sign
+        if(vk_id) {
+            try {
+                const response = await axios.get(BASE_URL + '/api/info', {
+                    params: {
+                        vk_id: vk_id,
+                        vk_sign: vk_sign
+                    }
+                });
+                if(response.data.error) {
+                    return await response.data.error
+                } else {
+                    return JSON.parse(await response.data)
                 }
-            });
-            if(response.data.error) {
-                return await response.data.error
-            } else {
-                return JSON.parse(await response.data)
-            }
-        } catch (e) {
-            return await e.message
-        } 
+            } catch (e) {
+                return await e.message
+            } 
+        } else {
+            throw new Error('Invalid data')
+        }
     }
 
     return {
