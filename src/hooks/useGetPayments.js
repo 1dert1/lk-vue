@@ -33,7 +33,7 @@ export default function useGetPayments() {
                 if(response.data.error) {
                     return await response.data.error
                 } else {
-                    return await response.data
+                    return await JSON.parse(response.data)
                 }
             } catch (e) {
                 return e.message
