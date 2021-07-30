@@ -44,19 +44,18 @@
     <my-list v-for="(bill, indexBill) in hostel.bills"
     :key="indexBill">
       <template #name>
-        <div class="flex-grow grid grid-cols-2 justify-start items-center">
-          <p class="my-5 mx-5 font-semibold">
+          <p class="flex-grow my-5 mx-5 font-semibold">
             {{ bill.name  }} 
             </p>
-            <p class="my-5 justify-self-end font-semibold">
-            {{ bill.status  }}
-            </p>
-          </div>
       </template>
       <template #grade>
         {{ bill.amount }} ₽
       </template>
       <template #content>
+        <div class="hover:bg-gray-300 grid grid-cols-2 gap-4 border-b border-gray-300">
+          <p class="my-5 mx-5">Статус счета</p>
+          <p class="my-5 mx-5">{{ bill.status  }}</p>
+        </div>
       <div class="hover:bg-gray-300 grid grid-cols-2 gap-4 border-b border-gray-300">
           <p class="my-5 mx-5">Номер счета</p>
           <p class="my-5 mx-5">{{ bill.id }}</p>

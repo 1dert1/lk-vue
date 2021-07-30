@@ -12,25 +12,25 @@
     </div>
   </div>
     <div v-if="!isLoading && payments">
-    <div class="hover:bg-gray-300 pt-5 border-b border-gray-300">
+    <div v-if="payments.active.length" 
+    class="hover:bg-gray-300 pt-5 border-b border-gray-300">
       <p class="mx-3 mb-5 font-semibold">Активные выплаты</p>
     </div>
     <my-list v-for="(payment, indexPayment) in payments.active"
     :key="indexPayment">
       <template #name>
-         <div class="flex-grow grid grid-cols-2 justify-start items-center">
-          <p class="my-5 mx-5 font-semibold">
-            {{ payment.type }} 
-            </p>
-            <p class="my-5 font-semibold">
+            <p class="flex-grow my-5 mx-5 font-semibold">
             {{ payment.name }}
             </p>
-          </div>
       </template>
       <template #grade>
         {{ payment.amount }} ₽
       </template>
       <template #content>
+        <div class="hover:bg-gray-300 grid grid-cols-2 gap-4 border-b border-gray-300">
+          <p class="my-5 mx-5">Тип выплаты</p>
+          <p class="my-5 mx-5">{{ payment.type }} </p>
+        </div>
       <div class="hover:bg-gray-300 grid grid-cols-2 gap-4 border-b border-gray-300">
           <p class="my-5 mx-5">Дата начала</p>
           <p class="my-5 mx-5">{{ payment.start_date }}</p>
@@ -57,7 +57,7 @@
         </div>
       </template>
       </my-list>
-      <my-list-nested :opened="false">
+      <my-list-nested :opened="false" v-if="payments.inactive.length">
       <template #name>
         Истекшие выплаты
       </template>
@@ -67,19 +67,18 @@
     <my-list v-for="(payment, indexPayment) in payments.inactive"
     :key="indexPayment">
       <template #name>
-        <div class="flex-grow grid grid-cols-2 justify-start items-center">
-          <p class="my-5 mx-5 font-semibold">
-            {{ payment.type }} 
-            </p>
-            <p class="my-5 font-semibold">
+          <p class="flex-grow my-5 mx-5 font-semibold">
             {{ payment.name }}
             </p>
-          </div>
       </template>
       <template #grade>
         {{ payment.amount }} ₽
       </template>
       <template #content>
+        <div class="hover:bg-gray-300 grid grid-cols-2 gap-4 border-b border-gray-300">
+          <p class="my-5 mx-5">Тип выплаты</p>
+          <p class="my-5 mx-5">{{ payment.type }} </p>
+        </div>
       <div class="hover:bg-gray-300 grid grid-cols-2 gap-4 border-b border-gray-300">
           <p class="my-5 mx-5">Дата начала</p>
           <p class="my-5 mx-5">{{ payment.start_date }}</p>
